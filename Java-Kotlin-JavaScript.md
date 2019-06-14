@@ -1,5 +1,5 @@
 
-## 在线编译网站
+## 在线编译网站 
 
 + [Kotlin在线编译](https://play.kotlinlang.org/)
 
@@ -27,7 +27,7 @@
 | 赋值运算符 | =、+=、-=、*=、/=、%= | 一致 | 一致 | 
 | 自增自减运算符 | ++、-- | 一致 | 一致 |
 | 关系运算符 | <、>、<=、>=、==、!= | 一致 | 一致 |
-| 逻辑运算符 | &&、\|\|、! | 一致 | 一致 |
+| 逻辑运算符 | &&、\|\|、! | 一致 | <iframe src="https://pl.kotl.in/mLPRtitrN"></iframe> |
 | 区间运算符 | -- | -- | **说明:顺序是指a<b;倒序是指a>b**<ol><li>闭区间运算符:<ul><li>a..b(只支持顺序[a,b])</li><li>a.rangeTo(b)(只支持顺序[a,b])</li><li>a downTo b(只支持倒序[b,a]))</li></ul></li><li>半闭区间运算符:a until b(只支持顺序[a,b))</li></ol> |
 | 安全运算符 | -- | -- | <ol><li>判空操作符?:`var s : String? = null`</li><li>强判断操作符!!(如果希望抛出KotlinNullPointerException,则需要使用强判断操作符,而且定义的变量必须可容纳null):<strong><br/>var s : String? = null <br/>print(s!!)</strong></li></ol> | 
 | 类型运算符 | instanceof关键字 | -- | <ol><li>is运算符类似java的instanceof关键字,!is则是is运算符的否定形式`println(2 is Int)`</li><li>显式类型转换运算符as和as?,as转换失败会提示异常,as?则会返回null`println('0' as? Int)`</li></ol> |
