@@ -1,6 +1,7 @@
 ## 在线编译网站
 
 + [Kotlin在线编译](https://play.kotlinlang.org/)
++ [CodePen前端在线编码](https://codepen.io)
 
 ------
 
@@ -75,7 +76,9 @@ x == y // false
                     </pre>
                 </li>
                 <li><strong>它并没有为整数给出一种特定的类型</strong></li>
-                <li><strong>ECMAScript标准下,数值常量字面值不支持八进制</strong></li>
+                <li><strong>严格模式下,数值常量字面值不支持八进制</strong></li>
+                <li><strong>正无穷Infinity:超出<code>Number.MAX_VALUE</code>;负无穷-Infinity:超出<code>Number.MIN_VALUE</code></strong></li>
+                <li><strong>NaN:非数值(Not a Number)是一个特殊的数值,任何数值除以 0 会返回 NaN</strong></li>
             </ol>
         </td>
         <td>
@@ -83,14 +86,14 @@ x == y // false
                 <li>内置类型:Byte、Short、Int、Long、Float、Double</li>
                 <li><strong>数值常量字面值不支持八进制</strong></li>
                 <li>浮点数字面值默认double,float的表示方法和Java一致使用f或F:<code>123.2f</code></li>
-                <li>数字字面值可以使用下划线更易读:<code>100_000_000</code></li>
+                <li><strong>数字字面值可以使用下划线更易读:<code>100_000_000</code></strong></li>
                 <li><strong>较小的类型不能隐式类型转换为较大的类型</strong></li>
             </ol>
         </td>
     </tr>
     <tr>
         <td rowspan="2">布尔</td>
-        <td colspan="3">基础类型boolean,封装类型Boolean</td>
+        <td colspan="3">基础类型boolean,封装类型Boolean,字面值只有两个:true和false</td>
     </tr>
     <tr>
         <td>boolean</td>
@@ -111,13 +114,27 @@ x == y // false
     <tr>
         <td>空</td>
         <td>--</td>
-        <td>Null</td>
+        <td><code>Null</code>:<strong>如果定义的变量准备在将来用于保存对象,有必要把一个变量的值显式地设置为 null</strong>
+            <ol>
+                <li>
+                    <pre>
+typeof(null) //返回object                        
+                    </pre>
+                </li>
+                <li>
+                    <pre>
+null == undefined //返回 true
+null === undefined //返回false                        
+                    </pre>
+                </li>
+            </ol>
+        </td>
         <td>--</td>
     </tr>
     <tr>
         <td>未定义</td>
         <td>--</td>
-        <td><code>Undefined</code>:声明未定义的变量的初始值
+        <td><code>Undefined</code>:声明未定义的变量的初始值,<strong>没有必要把一个变量的值显式地设置为 undefined</strong>
             <pre>
 var x;
 typeof(x);  // undefined
@@ -276,6 +293,7 @@ d instanceof Date;  // true
     <tr>
         <td rowspan="2">if</td>
         <td colspan="3">
+            作为语句
             <pre>
 if(type == "1"){
     ...
@@ -356,7 +374,7 @@ for(String s : StringList){
             <ol>
                 <li>fori
                     <pre>
-for(int i = 0; i &lt; 10; i++ ){
+for(let i = 0; i &lt; 10; i++ ){
     ...
 }                        
                     </pre>
@@ -404,6 +422,10 @@ while(count &lt; 20){
             </pre>
         </td>
     </tr>
+    <tr>
+        <td>break和return</td>
+        <td colspan="3">break 和 continue 语句用于在循环中精确地控制代码的执行</td>
+    </tr>
 </table>
 
 # 类与对象
@@ -421,13 +443,10 @@ while(count &lt; 20){
     <tr>
         <td>类声明</td>
         <td></td>
-        <td><strong>构建函数通常是大写字母开头,用以区分构建函数和普通函数</strong>
+        <td>
            <pre>
 function Person(name) {
-    this.name = name;
-    this.greeting = function() {
-        alert('Hi! I\'m ' + this.name + '.');
-    };
+    
 }
            </pre> 
         </td>
@@ -435,14 +454,55 @@ function Person(name) {
         <td><code>class Invoice { ... }</code></td>
     </tr>
     <tr>
-        <td>创建类实例</td>
-        <td>通过new关键字
+        <td>创建对象</td>
+        <td>构造函数模式
             <pre>
 Customer customer = new Customer("Joe Smith")
             </pre>
         </td>
         <td>
             <ol>
+                <li>构造函数模式
+                    <pre>
+<a href="https://codepen.io/zero_bubble/pen/rEpabK/">运行代码</a><br/> 
+function Person(name, age, job){
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = function(){
+            alert(this.name);
+}; }
+
+var person = new Person("Joe Smith", 29, "Software Engineer")
+
+console.log(JSON.stringify(person))
+                    </pre>
+                </li>
+                <li>结合原型模式,<strong>只要创建了一个新函数，就会根据一组特定的规则为该函数创建一个 prototype 属性</strong>
+                    <ol>
+                        <li>让所有对象实例共享它所包含的属性和方法</li>
+                        <li>如果我们在实例中添加了一个属性，而该属性与实例原型中的一个属性同名，那我们就在实例中创建该属性，<strong>该属性将会屏蔽原型中的那个属性</strong>。通过<code>hasOwnProperty</code>方法区分属性存在于实例中还是存在于原型中</li>
+                        <li>实例的内部将包含一个指针<code>[Prototype]</code>,指向构造函数的原型对象</li>
+                    </ol>
+                    <pre>
+function Person(name, age, job){
+        this.name = name;
+        this.age = age;
+        this.job = job;
+}
+
+Person.prototype = {
+    constructor : Person,
+    sayName : function() {
+        alert(this.name);
+    }
+}; 
+
+var person = new Person("Joe Smith", 29, "Software Engineer")
+
+console.log(JSON.stringify(person))
+                    </pre>
+                </li>
                 <li>使用对象字面量<code>{}</code>
                     <pre>
 var person = {
@@ -451,11 +511,6 @@ var person = {
     age:62,
     eyeColor:"blue"
 };                        
-                    </pre>
-                </li>
-                <li>使用new关键字
-                    <pre>
-var date = new Date();                        
                     </pre>
                 </li>
                 <li>通过<code>Object()</code>函数
@@ -476,7 +531,9 @@ person1.name = "john";
                 </li>
             </ol>
         </td>
-        <td><strong>注意:kotlin中没有new关键字</strong>
+        <td></td>
+        <td>构造函数模式
+            <strong>注意:kotlin中没有new关键字</strong>
             <pre>
 val customer = Customer("Joe Smith")
             </pre>
@@ -484,6 +541,7 @@ val customer = Customer("Joe Smith")
     </tr>
     <tr>
         <td>构造函数</td>
+        <td></td>
         <td></td>
         <td></td>
         <td>
@@ -523,7 +581,7 @@ class Person(name: String) {
                     <pre>
 class Person(val name: String) {
     constructor(name: String, parent: Person) : <strong>this(name)</strong> {
-        parent.children.add(this)
+        parent.children.add(this)x
     }
 }
                     </pre>
@@ -564,6 +622,7 @@ public class Derived extends Base {
             </ol>
         </td>
         <td></td>
+        <td></td>
         <td>
             <ol>
                 <li>所有类的共同基类是<code>Any</code></li>
@@ -578,6 +637,7 @@ class Derived(p:Int) : Base(p)
     </tr>
     <tr>
         <td>重写</td>
+        <td></td>
         <td></td>
         <td></td>
         <td>
