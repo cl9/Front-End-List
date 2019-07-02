@@ -28,18 +28,72 @@
     </tr>
     <tr>
         <td>1. 字符串是引用类型</td>
-        <td><code>string类型</code>
-            <ol>
-                <li>字符串字面量可以通过<code>\</code>拆分成多行
-                    <pre>
+        <td>
+            <table>
+                <tr>
+                    <th>ES5</th>
+                    <th>ES6</th>
+                </tr>
+                <tr>
+                    <td>
+                        <ol>
+                            <li>字符串字面量可以通过<code>\</code>拆分成多行
+                            <pre>
 "Hello\
 ,\
 JavaScript
 "
-                    </pre>
-                </li>
-                <li>比较字符串只需要使用比较表达式(&lt;&gt;&lt;=&gt;)</li>
-            </ol>
+                            </pre>
+                            </li>
+                            <li>比较字符串只需要使用比较表达式(&lt;&gt;&lt;=&gt;)</li>
+                        </ol>
+                    </td>
+                    <td>
+                        <ol>
+                            <li><strong>模版字符串<code>``</code></strong>
+                                <ul>
+                                    <li>结合html标签
+                                        <pre>
+`Hello <strong>Wolrd</strong>!`
+                                        </pre>
+                                    </li>
+                                    <li>嵌入变量<code>${}</code>
+                                        <pre>
+`username is ${username}`                                        
+                                        </pre>
+                                    </li>
+                                    <li>嵌入方法
+                                        <pre>
+function hello(){
+    return 'Hello Wolrd!'
+}           
+console.log(`${hello()}`)                           
+                                        </pre>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>ES6 为字符串添加了遍历器接口,使得字符串可以被for...of循环遍历。
+                                最大的优点是可以识别大于0xFFFF的码点，传统的for循环无法识别这样的码点
+                                <pre>
+let text = String.fromCodePoint(0x20BB7);
+
+for (let i = 0; i &lt; text.length; i++) {
+    console.log(text[i])
+}
+  
+// " "
+// " "
+
+for (let i of text) {
+  console.log(i);
+}
+// "𠮷"                                    
+                                </pre>
+                            </li>
+                        </ol>
+                    </td>
+                </tr>
+            </table>
         </td>
         <td>
             <ol>
@@ -145,7 +199,53 @@ typeof(x);  // undefined
     <tr>
         <td>代表</td>
         <td>--</td>
-        <td><code>Symbol</code>:一种实例是唯一且不可改变的数据类型</td>
+        <td>
+            <table>
+                <tr>
+                    <th>ES5</th>
+                    <th>ES6</th>
+                </tr>
+                <tr>
+                    <td>--</td>
+                    <td><code>Symbol</code>:一种实例是唯一且不可改变的数据类型
+                        <ol>
+                            <li>作为属性名
+                                <pre>
+let s = Symbol();
+let obj = {
+    &#91;s&#93;(args){
+        return `Hello ${args}`
+    }
+}
+console.log(obj[s]('JavaScript'))                                
+                                </pre>
+                            </li>
+                            <li>作为常量
+                                <pre>
+const ACTION_DOWN = Symbol();
+const ACTION_UP = Symbol();
+
+getAction = (action) =>{
+    switch(action){
+        case ACTION_DOWN:
+            console.log("手指按下");
+            break;
+        case ACTION_UP:
+            console.log("手指抬起");
+            break;
+        default:
+            console.log("初始");
+            break;
+    }
+}
+getAction(ACTION_DOWN);
+                                </pre>
+                            </li>
+                        </ol>
+                    </td>
+                </tr>
+            </table>
+        </td>
         <td>--</td>
     </tr>
 </table>
@@ -277,6 +377,54 @@ d instanceof Date;  // true
             </ol>
         </td>
     </tr>
+    <tr>
+        <td>属性名表达式</td>
+        <td>--</td>
+        <td>
+            <table>
+                <tr>
+                    <th>ES5</th>
+                    <th>ES6</th>
+                </tr>
+                <td>--</td>
+                <td>用表达式作为属性名,要将表达式放在方括号之内<code>obj[attr]</code>
+                    <pre>
+obj['user'+'name']                        
+                    </pre>
+                    <blockquote>
+                        <strong>注意，属性名表达式与简洁表示法，不能同时使用，会报错</strong>
+                    </blockquote>
+                </td>
+            </table>
+        </td>
+        <td>--</td>
+    </tr>
+        <td>扩展运算符</td>
+        <td>--</td>
+        <td>
+            <table>
+                <tr>
+                    <td>ES5</td>
+                    <td>ES6</td>
+                </tr>
+                <tr>
+                    <tr>
+                        <td>--</td>
+                        <td>扩展运算符<code>...</code>取出参数对象的所有可遍历属性，拷贝到当前对象之中
+                            <pre>
+let {id,...userinfo} = {id:1,username:"john",age:12,phone:"13886452132"}
+toJson = () =>{
+    return JSON.stringify(userinfo);
+}
+console.log(`id为${id},用户信息为${toJson()}`)
+                            </pre>
+                        </td>
+                    </tr>
+                </tr>
+            </table>
+        </td>
+        <td>--</td>
+    </tr>
 </table>
 
 ------
@@ -370,29 +518,59 @@ for(String s : StringList){
                 </li>
             </ol>            
         </td>
-        <td>支持fori和forin循环
-            <ol>
-                <li>fori
-                    <pre>
+        <td>
+            <table>
+                <tr>
+                    <th>ES5</th>
+                    <th>ES6</th>
+                </tr>
+                <tr>
+                    <td>支持fori和for...in循环
+                        <ol>
+                            <li>fori
+                                <pre>
 for(let i = 0; i &lt; 10; i++ ){
     ...
-}                        
-                    </pre>
-                </li>
-                <li>forin更方便遍历对象属性成员
-                    <pre>
-var obj = { x:1, y:2, z:3 }
-for(atr in obj){
-    console.log(atr)
+}                                    
+                                </pre>
+                            </li>
+                            <li>for...in更方便遍历对象属性成员
+                                <pre>
+const arr = ['a','b','c']
+arr.name = 'curry';
+
+for(let key in arr){
+  console.log(key);
 }
-                    </pre>
-                </li>
-            </ol>
+//"0","1","2","name"         
+                                </pre>
+                            </li>
+                        </ol>
+                    </td>
+                    <td>新增for...of循环
+                        <ol>
+                            <li>for...of遍历具有<code>iterator</code>接口的数据结构</li>
+                            <li>包括数组、Set、Map、字符串、Generator 对象以及某些类似数组的对象</li>
+                            <li><strong>for...in遍历获得键名,for...of遍历获得键值</strong>
+                                <pre>
+const arr = ['a','b','c']
+arr.name = 'curry';
+
+for(let value of arr){
+  console.log(value);  
+} 
+//"a","b","c"                     
+                                </pre>
+                            </li>
+                        </ol>
+                    </td>
+                </tr>
+            </table>
         </td>
         <td>
             <ol>
-                <li>只支持forin循环</li>
-                <li>forin循环可以对提供iterator的对象进行遍历</li>
+                <li>只支持for...in循环</li>
+                <li>for...in循环可以对提供iterator的对象进行遍历</li>
                 <li>如果在数字区间上进行迭代,请使用区间表达式</li>
                 <pre>
 <a href="https://pl.kotl.in/DSqeDOUsb">运行代码</a><br/>                
@@ -443,15 +621,9 @@ while(count &lt; 20){
     <tr>
         <td>类声明</td>
         <td></td>
-        <td>
-           <pre>
-function Person(name) {
-    
-}
-           </pre> 
-        </td>
-        <td></td>
-        <td><code>class Invoice { ... }</code></td>
+        <td><pre>function Person(name) {...}</pre></td>
+        <td><pre>class Person { ... }</pre></td>
+        <td><pre>class Invoice { ... }</pre></td>
     </tr>
     <tr>
         <td>创建对象</td>
@@ -466,6 +638,7 @@ Customer customer = new Customer("Joe Smith")
                     <pre>
 <a href="https://codepen.io/zero_bubble/pen/rEpabK/">运行代码</a><br/> 
 function Person(name, age, job){
+    
         this.name = name;
         this.age = age;
         this.job = job;
@@ -486,16 +659,16 @@ console.log(JSON.stringify(person))
                     </ol>
                     <pre>
 function Person(name, age, job){
-        this.name = name;
-        this.age = age;
-        this.job = job;
+&Tab;this.name = name;
+&Tab;this.age = age;
+&Tab;this.job = job;
 }
 
 Person.prototype = {
-    constructor : Person,
-    sayName : function() {
-        alert(this.name);
-    }
+&Tab;constructor : Person,
+&Tab;sayName : function() {
+&Tab;&Tab;alert(this.name);
+&Tab;}
 }; 
 
 var person = new Person("Joe Smith", 29, "Software Engineer")
@@ -506,10 +679,10 @@ console.log(JSON.stringify(person))
                 <li>使用对象字面量<code>{}</code>
                     <pre>
 var person = {
-    firstName:"Bill",
-    lastName:"Gates",
-    age:62,
-    eyeColor:"blue"
+&Tab;firstName:"Bill",
+&Tab;lastName:"Gates",
+&Tab;age:62,
+&Tab;eyeColor:"blue"
 };                        
                     </pre>
                 </li>
@@ -531,7 +704,22 @@ person1.name = "john";
                 </li>
             </ol>
         </td>
-        <td></td>
+        <td> ES6 的class可以看作只是一个语法糖
+            <pre>
+class Person{
+    constructor(name,age){
+        this.name = name;
+        this.age = age;
+    }
+
+    toString(){
+        return this.name+this.age;
+    }
+} 
+
+let person = new Person("john",12)
+            </pre>
+        </td>
         <td>构造函数模式
             <strong>注意:kotlin中没有new关键字</strong>
             <pre>
@@ -542,8 +730,49 @@ val customer = Customer("Joe Smith")
     <tr>
         <td>构造函数</td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td>
+            <ol>
+                <li>表示如下:
+                    <pre>
+function Person(name) {
+    this.name = name;
+}
+                    </pre>
+                </li>
+                <li>和普通函数的区别是构造函数的首个字母大写</li>
+                <li>实例的属性除非显式定义在其本身（即定义在this对象上），否则都是定义在原型上（即定义在class上）。
+                    <pre>
+this.name = name;
+Person.prototype.age = 12;                        
+                    </pre>
+                </li>
+            </ol>
+        </td>
+        <td>
+            <ol>
+                <li>表示如下:
+                    <pre>
+constructor(name) {
+    this.name = name;
+}
+                    </pre>
+                </li>
+                <li>如果没有显示定义构造函数,会默认添加一个空构造函数</li>
+                <li>实例的属性除非显式定义在其本身（即定义在this对象上），否则都是定义在原型上（即定义在class上）。
+                    <pre>
+this.name = name;
+Person.prototype.age = 12;                        
+                    </pre>
+                </li>
+                <li>实例的属性还可以在类的最顶层定义
+                    <pre>
+class Person{
+    name = "";
+}                        
+                    </pre>
+                </li>
+            </ol>
+        </td>
         <td>
             <ol>
                 <li>主构造函数
@@ -621,8 +850,54 @@ public class Derived extends Base {
                 </li>
             </ol>
         </td>
-        <td></td>
-        <td></td>
+        <td>通过修改原型链实现继承
+            <ol>
+                <li></li>
+                <li><strong>继承机制实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）</strong></li>
+                <li></li>
+            </ol>
+        </td>
+        <td>通过<code>extends</code>关键字实现继承
+            <ol>
+                <li>表示如下:
+                    <pre>
+class Man extends Person{
+    ....
+}                        
+                    </pre>
+                </li>
+                <li><strong>继承机制实质是先将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法），然后再用子类的构造函数修改this。</strong>
+                    <pre>
+class Man extends Person{
+    constructor(sex){
+        super() // <strong>必须在this调用之前</strong>
+        this.sex = sex;
+    }
+}                        
+                    </pre>
+                </li>
+                <li>作为函数时，super()只能用在子类的构造函数之中，用在其他地方就会报错
+                    <pre>
+class Man extends Person{
+    toString(){
+        super(); // <strong>会报错</strong>
+    }
+}                             
+                    </pre>
+                </li>
+                <li>super作为对象时，在普通方法中，指向父类的原型对象。<strong>定义在父类实例上的方法或属性，是无法通过super调用的。</strong>
+                    <pre>
+class Man extends Person{
+    toString(){
+        console.log(super.name); // undefined
+        super.toString();
+    }
+}     
+                    </pre>
+                </li>
+                <li>用在静态方法之中，这时super将指向父类，而不是父类的原型对象。</li>
+            </ol>
+        </td>
         <td>
             <ol>
                 <li>所有类的共同基类是<code>Any</code></li>
