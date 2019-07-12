@@ -30,7 +30,28 @@ class Title extends React.Component {
 ```
 
 ### 组件生命周期
+[生命周期图谱](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
+#### constructor()
+1. 如果不初始化 state 或不进行方法绑定，则不需要为 React 组件实现构造函数
+2. 要避免在构造函数中引入任何副作用或订阅
+3. **避免将 props 的值复制给 state！这是一个常见的错误**
+
+#### componentDidMount()
+会在组件挂载后（插入 DOM 树中）立即调用。依赖于 DOM 节点的初始化应该放在这里。
+1. 网络请求获取数据
+2. 添加订阅
+3. 创建 timer
+
+#### componentDidUpdate(prevProps, prevState, snapshot)
+1. 首次渲染不会执行此方法
+2. 当组件更新后，可以在此处对 `DOM` 进行操作
+
+#### componentWillUnmount()
+会在组件卸载及销毁之前直接调用
+1. 清除 timer
+2. 取消网络请求
+3. 清除订阅
 
 
 ### 组件间通信
