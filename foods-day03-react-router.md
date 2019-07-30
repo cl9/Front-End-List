@@ -4,8 +4,8 @@
     + [BrowserRouter和HashRouter的区别](#BrowserRouter和HashRouter的区别)
     + [Switch和Route的区别](#Switch和Route的区别)
 2. [将手机号传至设置密码(路由传参)](#将手机号传至设置密码)
-    * [通过url拼接参数`?`的方式](#通过url拼接参数`?`的方式)
-    * [路由表中通过:id方式](#路由表中通过:id方式)
+    * [通过url拼接参数`?`](#通过url拼接参数`?`)
+    * [路由表中通过`:`](#路由表中通过`:`)
     * [query](#query)
     * [state](#state)
     * [四种方式的对比](#四种方式的对比)
@@ -18,7 +18,7 @@
 React Router 知道如何为我们搭建嵌套的 UI，因此我们不用手动找出需要渲染哪些组件。
 
 ### 如何使用?
-[react-router和react-router-dom有什么区别](https://github.com/ReactTraining/react-router/issues/4648)
+[react-router和react-router-dom有什么区别](https://github.com/ReactTraining/react-router/issues/4648)
 1. React Native app
     * NPM
     ```
@@ -35,7 +35,7 @@ React Router 知道如何为我们搭建嵌套的 UI，因此我们不用手动�
     ```
 
 ### BrowserRouter和HashRouter的区别
-||BrowserRouter|HashRouter|
+||BrowserRouter|HashRouter|
 |:---:|:---:|:---:|
 |实现|使用HTML5的[History](https://developer.mozilla.org/en-US/docs/Web/API/History)|使用window.location.hash|
 |url表示|http://localhost:3000/react_router/index?id=2|http://localhost:3000/react_router/#index?id=2|
@@ -81,12 +81,12 @@ export default routes
 
 ## 将手机号传至设置密码
 路由传参有以下几种方法:
-* 通过url拼接参数`?`的方式
-* 路由表中通过:id方式
+* 通过url拼接参数`?`
+* 路由表中通过`:`
 * query
 * state
 
-### 通过url拼接参数`?`的方式
+### 通过url拼接参数`?`
 #### 传参
 ```
 this.props.history.push('/setpwd?phone=18909090909')
@@ -100,7 +100,7 @@ const queryString = Qs.parse(this.props.location.search,{ignoreQueryPrefix: true
     const {phone = ''} = queryString 
 ```
 
-### 路由表中通过:id方式
+### 路由表中通过`:`
 #### 传参
 1. 修改路由表中对应的路由
 ```
@@ -109,7 +109,7 @@ const queryString = Qs.parse(this.props.location.search,{ignoreQueryPrefix: true
   component : setPwd
 }
 ```
-2. 传参
+2. 传参
 ```
 this.props.history.push('/setpwd/18909090909')
 ```
