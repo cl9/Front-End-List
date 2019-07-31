@@ -2,13 +2,17 @@
 参考
 
 * [Mockplus](https://www.mockplus.cn/sample/tags?name=App原型设计)
+* [Axure中文网](https://www.axure.com.cn/)
+* [人人都是产品经理](http://www.woshipm.com)
+* [xiaopiu](https://www.xiaopiu.com/square)
 
 # UI设计
 参考
 
 * [千图网](https://www.58pic.com)
 * [站酷](https://www.zcool.com.cn/discover/17!3!0!0!0!!!!2!-1!1)
-
+* [UI素材下载](https://www.doupir.com/downloads)
+* [UI中国](https://ui.cn)
 
 # 项目代码编写
 
