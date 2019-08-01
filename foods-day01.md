@@ -119,6 +119,24 @@ npm i react-app-rewired@2.0.2-next.0
 4. 个人设置模块
 5. 搜索模块
 
+## React中的页面编写
+
+### React中的样式编写
+1. 从性能角度来说，CSS 的 `class` 通常比行内样式更好
+2. CSS 的 `class` 依赖组件的 `props` 或 `state`的情况很常见：
+    ```
+    render() {
+    let className = 'menu';
+    if (this.props.isActive) {
+        className += ' menu-active';
+    }
+    return <span className={className}>Menu</span>
+    }
+    ```
+    **如果你经常发现自己写类似这样的代码，[classnames](https://www.npmjs.com/package/classnames#usage-with-reactjs)的 package 可以简化这一过程。**
+3. 使用 [sass](https://www.sass.hk/),它在 CSS 语法的基础上增加了变量 (variables)、嵌套 (nested rules)、混合 (mixins)、导入 (inline imports) 等高级功能。
+    * [变量]()
+
 ## 移动端适配
 * 1px问题
 * UI图完美适配方案
