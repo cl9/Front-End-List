@@ -1,3 +1,56 @@
+# React小技巧&第三方库
+## 小技巧
+* [HOC组件](https://react.docschina.org/docs/higher-order-components.html)
+* [使用 PropTypes 进行类型检查](https://react.docschina.org/docs/typechecking-with-proptypes.html)
+
+## 第三方库
+* 样式
+  * [在React项目中更好的使用className](#在React项目中更好的使用className)
+  * [CSS预处理器](#CSS预处理器)
+* UI组件库
+  * [antd-mobile](#antd-mobile)
+  * [React表单](#React表单)
+# 样式
+## 在React项目中更好的使用className
+* [每日质量NPM包-classnames](https://www.cnblogs.com/soyxiaobi/p/9729289.html)
+```
+render() {
+  let className = 'menu';
+  if (this.props.isActive) {
+      className += ' menu-active';
+  }
+  return <span className={className}>Menu</span>
+}
+```
+**CSS 的 `class` 依赖组件的 `props` 或 `state`的情况很常见,如果你经常发现自己写类似这样的代码，[classnames](https://www.npmjs.com/package/classnames#usage-with-reactjs)以简化这一过程。**
+```
+const className = classnames({
+      'menu': true,
+      'menu-active': this.props.isActive 
+})
+```
+
+## CSS预处理器
+  * 使用 [SASS](https://www.sass.hk/),它在 CSS 语法的基础上增加了变量 (variables)、嵌套 (nested rules)、混合 (mixins)、导入 (inline imports) 等高级功能。
+
+## UI组件库
+* [antd-mobile](https://mobile.ant.design/docs/react/introduce-cn)
+
+### React表单
+官方推荐的解决方案:[Formik](https://jaredpalmer.com/formik)
+
+#### antd-mobile与Formik结合使用
+* [
+Formik与antd-mobile的移动端的表单实践 (上) ](https://segmentfault.com/a/1190000016171909)
+* [
+Formik与antd-mobile的移动端的表单实践（下）](https://segmentfault.com/a/1190000016525510)
+
+1. 安装Formik
+```
+npm install formik --save
+```
+
+
 # Mobx vs Redux
 
 <table>
