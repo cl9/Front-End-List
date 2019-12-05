@@ -5,7 +5,11 @@
   - [nodemon+VsCode调试](#nodemon+VsCode调试)
 
 - [koa中间件](#koa中间件)
-  - [路由 koa-router](#路由koa-router)
+  - [路由koa-router](#路由koa-router)
+    - [使用入门](#使用入门)
+    - [扩展](#扩展) 
+      - [获取get请求的参数](#获取get请求的参数)
+      - [获取post请求的参数](#获取post请求的参数)
   - [路由动态注册require-directory](#路由动态注册require-directory)
   - [全局异常](#全局异常)
   - [数据库ORM框架Sequelize](#数据库ORM框架Sequelize)
@@ -89,39 +93,78 @@ nodemon xxx.js
 >   }
 > });
 > ```
->
 > 安装 koa-router 之后，可以通过中间件简化 if 判断
 
+### 使用入门
 1. 安装 koa-router
 
-```
-npm i koa-router
-```
+    ```
+    npm i koa-router
+    ```
 
 2. 引入 koa-router
 
-```
-const Router = require('koa-router')
-```
+    ```
+    const Router = require('koa-router')
+    ```
 
 3. 实例化
 
-```
-var router = new Router()
-```
+    ```
+    var router = new Router()
+    ```
 
 4. 调用 koa-router 的 Rest 方法，例如 get、post、pull、delete 等
 
-```
-router.get("/", (ctx, next) => {
-  ctx.body = "<span>哼哼哈哈</span>";
-});
-```
+    ```
+    router.get("/", (ctx, next) => {
+      ctx.body = "<span>哼哼哈哈</span>";
+    });
+    ```
 
 5. 注册中间件
 
+    ```
+    app.use(router.routes())
+    ```
+
+### 扩展
+#### 路由前缀prefix
+路由前缀,例如api的前缀为`/api/v1/register`,可以通过下述方法简化前缀
 ```
-app.use(router.routes())
+const router = new Router({
+  prefix: '/api/v1'
+});
+
+router.get('/register', ...); 
+```
+
+#### 获取get请求的参数
+1. 通过`ctx.params`获取path中`:xx`的参数,例如`http://localhost:3333/users/333`
+> 注意:`http://localhost:3333/users`是不会匹配下面的路由的,如果要匹配,则修改路由为`/users/:id?`即可
+```
+router.get('/users/:id', ...);
+console.log(`id is ${ctx.params.id}`)
+```
+2. 通过`ctx.query`获取search参数,例如`http://localhost:3333/users/333?pageNum=10`
+```
+console.log(`pageNum is ${ctx.query.pageNum}`)
+```
+
+#### 获取post请求的参数
+
+通过`koa-bodyparser`获取post请求的参数
+1. 安装[koa-bodyparser](https://www.npmjs.com/package/koa-bodyparser)
+```
+npm install koa-bodyparser@2 --save
+```
+2. 通过`ctx.request.body`获取请求体参数
+```
+app.use(bodyParser())
+ 
+app.use( async (ctx) => {
+console.log(ctx.request.body)
+})
 ```
 
 ## 路由动态注册require-directory
@@ -140,7 +183,7 @@ app.use(router.routes())
 >
 > 安装 require-directory 之后，路由可以动态注册
 
-1. 安装 require-directory
+1. 安装 [require-directory](https://www.npmjs.com/package/require-directory)
 
 ```
 npm i require-directory
